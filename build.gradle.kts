@@ -17,6 +17,13 @@ taboolib {
 }
 
 repositories {
+    maven {
+        credentials {
+            username = "a5phyxia"
+            password = "zxzbc13456"
+        }
+        url = uri("https://maven.ycraft.cn/repository/maven-snapshots/")
+    }
     mavenCentral()
 }
 

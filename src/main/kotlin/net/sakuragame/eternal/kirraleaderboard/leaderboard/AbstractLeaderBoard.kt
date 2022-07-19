@@ -1,22 +1,24 @@
 package net.sakuragame.eternal.kirraleaderboard.leaderboard
 
 import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.BIG_FIRST
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.SMALL_FIRST
 
 @Suppress("LeakingThis")
-abstract class AbstractLeaderBoard<T : Number>(inputMap: Map<Int, T>) {
+abstract class AbstractLeaderBoard<T : Comparable<T>> {
 
     init {
-        refresh(inputMap)
+        refreshInput()
         KirraLeaderBoardAPI.leaderBoards += this
     }
 
     abstract val name: String
 
-    abstract val sortedMap: MutableMap<Int, T>
+    abstract var sortedMap: MutableMap<Int, T>
 
-    abstract val sortType: SortType
+    abstract val type: SortType
 
-    abstract fun refresh(inputMap: Map<Int, T>)
+    abstract fun refreshInput()
 
     fun getFirst(): Pair<Int, T>? {
         return sortedMap
@@ -40,5 +42,20 @@ abstract class AbstractLeaderBoard<T : Number>(inputMap: Map<Int, T>) {
         return sortedMap
             .toList()
             .lastOrNull()
+    }
+
+    private fun doInternalSort(inputMap: MutableMap<Int, T>) {
+        sortedMap = when (type) {
+            SMALL_FIRST -> inputMap
+                .toList()
+                .sortedByDescending { (_, value) -> value }
+                .toMap()
+                .toMutableMap()
+            BIG_FIRST -> inputMap
+                .toList()
+                .sortedBy { (_, value) -> value }
+                .toMap()
+                .toMutableMap()
+        }
     }
 }

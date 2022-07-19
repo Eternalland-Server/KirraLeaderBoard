@@ -5,5 +5,5 @@ import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 @Suppress("SpellCheckingInspection")
 object KirraLeaderBoardAPI {
 
-    val leaderBoards = mutableListOf<AbstractLeaderBoard<out Number>>()
+    val leaderBoards = mutableListOf<AbstractLeaderBoard<out Comparable<*>>>()
 }
