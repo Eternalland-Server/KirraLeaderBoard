@@ -29,9 +29,12 @@ repositories {
 
 dependencies {
     compileOnly("ink.ptms.core:v11200:11200")
+    @Suppress("VulnerableLibrariesLocal", "RedundantSuppression")
     compileOnly("net.sakuragame:datamanager-bukkit-api:2.0.2-SNAPSHOT@jar") {
         isTransitive = true
     }
+    compileOnly("net.sakuragame.eternal:DragonCore:2.6.1-SNAPSHOT@jar")
+    compileOnly("com.taylorswiftcn:UIFactory:1.0.2-SNAPSHOT@jar")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 }
