@@ -3,6 +3,7 @@ package net.sakuragame.eternal.kirraleaderboard.leaderboard
 import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.BIG_FIRST
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.SMALL_FIRST
+import net.sakuragame.eternal.kirraleaderboard.toLeaderBoardEntry
 
 @Suppress("LeakingThis")
 abstract class AbstractLeaderBoard<T : Comparable<T>> {
@@ -20,28 +21,32 @@ abstract class AbstractLeaderBoard<T : Comparable<T>> {
 
     abstract fun refreshInput()
 
-    fun getFirst(): Pair<Int, T>? {
+    fun getFirst(): LeaderBoardEntry<T>? {
         return sortedMap
             .toList()
             .firstOrNull()
+            ?.toLeaderBoardEntry()
     }
 
-    fun getSecond(): Pair<Int, T>? {
+    fun getSecond(): LeaderBoardEntry<T>? {
         return sortedMap
             .toList()
             .getOrNull(1)
+            ?.toLeaderBoardEntry()
     }
 
-    fun getThird(): Pair<Int, T>? {
+    fun getThird(): LeaderBoardEntry<T>? {
         return sortedMap
             .toList()
             .getOrNull(2)
+            ?.toLeaderBoardEntry()
     }
 
-    fun getLast(): Pair<Int, T>? {
+    fun getLast(): LeaderBoardEntry<T>? {
         return sortedMap
             .toList()
             .lastOrNull()
+            ?.toLeaderBoardEntry()
     }
 
     private fun doInternalSort(inputMap: MutableMap<Int, T>) {
