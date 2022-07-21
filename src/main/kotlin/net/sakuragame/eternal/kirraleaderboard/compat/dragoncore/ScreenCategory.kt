@@ -30,7 +30,8 @@ object ScreenCategory {
 
     private fun ScreenUI.addCategoryComponents() {
         var increasedY = 0
-        KirraLeaderBoardAPI.leaderBoards.forEachIndexed { index, board ->
+        KirraLeaderBoardAPI.leaderBoards.forEach { board ->
+            val index = board.category.index
             addComponent(TextureComp("category_$index", "(global.ranking_category == $index) ? 'ui/ranking/select.png' : 'ui/ranking/unselect.png'").apply {
                 text = board.category.displayName
                 x = "body.x + 9.75"

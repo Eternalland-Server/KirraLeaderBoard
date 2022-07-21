@@ -5,17 +5,22 @@ import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.EntityViewC
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.TextureComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI
+import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
+import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI
+import org.bukkit.entity.Player
 import taboolib.module.chat.colored
 
 object ScreenMain {
 
     private const val id = "rank_main"
 
-    fun send2Player() {
+    fun send2Player(player: Player, category: Category) {
+        val playerId = ClientManagerAPI.getUserID(player.uniqueId)
+        val board = KirraLeaderBoardAPI.getByCategory(category) ?: error("无法根据分类获取对应界面。")
         ScreenUI(id).apply {
-            addImmutableComponents()
-
-
+            addImmutableComponents(player, playerId, category, board)
         }
             .addComponent(TextureComp("t1", "0,0,0,0").apply {
                 x = "body.x+134.25"
@@ -301,7 +306,8 @@ object ScreenMain {
             })
     }
 
-    private fun ScreenUI.addImmutableComponents() {
+    private fun ScreenUI.addImmutableComponents(player: Player, playerId: Int, category: Category, board: AbstractLeaderBoard<out Comparable<*>>) {
+        val boardEntry = board.getByPlayerName(playerId) ?: return
         addImports(ScreenCategory.id)
         addFunctions(FunctionType.Open, "global.ranking_category = 0;")
         addComponent(TextureComp("body", "ui/ranking/body.png").apply {

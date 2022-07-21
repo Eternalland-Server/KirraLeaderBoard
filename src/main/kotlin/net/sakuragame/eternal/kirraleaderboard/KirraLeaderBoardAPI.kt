@@ -1,6 +1,7 @@
 package net.sakuragame.eternal.kirraleaderboard
 
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
 import taboolib.common.platform.function.submit
 
 @Suppress("SpellCheckingInspection")
@@ -14,5 +15,9 @@ object KirraLeaderBoardAPI {
                 it.refreshInput()
             }
         }
+    }
+
+    fun getByCategory(category: Category): AbstractLeaderBoard<out Comparable<*>>? {
+        return leaderBoards.firstOrNull { it.category == category }
     }
 }

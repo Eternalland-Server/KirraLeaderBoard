@@ -1,7 +1,7 @@
 package net.sakuragame.eternal.kirraleaderboard.leaderboard
 
 @Suppress("unused", "SpellCheckingInspection")
-enum class Category(val displayName: String) {
+enum class Category(val index: Int, val displayName: String) {
 
-    COMBAT("战斗力"), COINS("金币"), GSTONE("神石");
+    COMBAT(0, "战斗力"), COINS(1, "金币"), GSTONE(2, "神石");
 }
