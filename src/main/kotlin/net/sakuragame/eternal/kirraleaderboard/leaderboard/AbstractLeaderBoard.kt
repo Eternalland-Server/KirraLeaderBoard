@@ -9,11 +9,10 @@ import net.sakuragame.eternal.kirraleaderboard.toLeaderBoardEntry
 abstract class AbstractLeaderBoard<T : Comparable<T>> {
 
     init {
-        refreshInput()
         KirraLeaderBoardAPI.leaderBoards += this
     }
 
-    abstract val name: String
+    abstract val category: Category
 
     abstract var sortedMap: MutableMap<Int, T>
 
@@ -54,7 +53,7 @@ abstract class AbstractLeaderBoard<T : Comparable<T>> {
         return LeaderBoardEntry(id, result)
     }
 
-    private fun doInternalSort(inputMap: MutableMap<Int, T>) {
+    fun doInternalSort(inputMap: MutableMap<Int, T>) {
         sortedMap = when (type) {
             SMALL_FIRST -> inputMap
                 .toList()
