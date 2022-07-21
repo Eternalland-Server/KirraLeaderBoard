@@ -1,5 +1,6 @@
 package net.sakuragame.eternal.kirraleaderboard.compat.dragoncore
 
+import com.taylorswiftcn.megumi.uifactory.generate.type.FunctionType
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.EntityViewComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.TextureComp
@@ -8,47 +9,14 @@ import taboolib.module.chat.colored
 
 object ScreenMain {
 
-    val screenUI by lazy {
-        ScreenUI("main".lowercase())
-            .addComponent(TextureComp("body", "ui/ranking/body.png").apply {
-                x = "(w-body.width)/2"
-                y = "(h-body.height)/2"
-                width = "485.25"
-                height = "344.25"
-            })
-            .addComponent(LabelComp("title", "".colored()).apply {
-                x = "body.x+(body.width-title.width)/2"
-                y = "body.y+15"
-            })
-            .addComponent(TextureComp("s1", "ui/ranking/frame.png").apply {
-                x = "body.x+390.75"
-                y = "body.y+200"
-                width = "56.25"
-                height = "16"
-            })
-            .addComponent(TextureComp("s2", "ui/ranking/frame.png").apply {
-                x = "s1.x"
-                y = "s1.y+60"
-                width = "56.25"
-                height = "16"
-            })
-            .addComponent(EntityViewComp("myself", "owner").apply {
-                x = "body.x+420"
-                y = "body.y+176"
-                scale = 2.0.toString()
-            })
-            .addComponent(TextureComp("myrank", "0,0,0,0").apply {
-                x = "s1.x"
-                y = "s1.y+20"
-                width = "24"
-                height = "10"
-            })
-            .addComponent(TextureComp("mydata", "0,0,0,0").apply {
-                x = "s2.x"
-                y = "s2.y+20"
-                width = "24"
-                height = "10"
-            })
+    private const val id = "rank_main"
+
+    fun send2Player() {
+        ScreenUI(id).apply {
+            addImmutableComponents()
+
+
+        }
             .addComponent(TextureComp("t1", "0,0,0,0").apply {
                 x = "body.x+134.25"
                 y = "body.y+45"
@@ -331,5 +299,55 @@ object ScreenMain {
                 width = "70.5"
                 height = "20.25"
             })
+    }
+
+    private fun ScreenUI.addImmutableComponents() {
+        addImports(ScreenCategory.id)
+        addFunctions(FunctionType.Open, "global.ranking_category = 0;")
+        addComponent(TextureComp("body", "ui/ranking/body.png").apply {
+            x = "(w-body.width)/2"
+            y = "(h-body.height)/2"
+            width = "485.25"
+            height = "344.25"
+        })
+        addComponent(LabelComp("title", "排行榜".colored()).apply {
+            x = "body.x+(body.width-title.width)/2"
+            y = "body.y+15"
+            scale = "1.6"
+        })
+        addComponent(TextureComp("s1", "ui/ranking/frame.png").apply {
+            x = "body.x+390.75"
+            y = "body.y+200"
+            width = "56.25"
+            height = "16"
+            text = "&5&l我的排名".colored()
+        })
+        addComponent(TextureComp("s2", "ui/ranking/frame.png").apply {
+            x = "s1.x"
+            y = "s1.y+60"
+            width = "56.25"
+            height = "16"
+            text = "&5&l我的数据".colored()
+        })
+        addComponent(EntityViewComp("myself", "owner").apply {
+            x = "body.x+420"
+            y = "body.y+176"
+            scale = 2.0.toString()
+        })
+        addComponent(TextureComp("myrank", "0,0,0,0").apply {
+            x = "s1.x"
+            y = "s1.y+20"
+            width = "24"
+            height = "10"
+            text = "&e&l9999".colored()
+            scale = 2.4.toString()
+        })
+        addComponent(TextureComp("mydata", "0,0,0,0").apply {
+            x = "s2.x"
+            y = "s2.y+20"
+            width = "24"
+            height = "10"
+            scale = 2.4.toString()
+        })
     }
 }

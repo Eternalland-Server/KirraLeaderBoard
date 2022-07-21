@@ -49,6 +49,11 @@ abstract class AbstractLeaderBoard<T : Comparable<T>> {
             ?.toLeaderBoardEntry()
     }
 
+    fun getByPlayerId(id: Int): LeaderBoardEntry<T>? {
+        val result = sortedMap[id] ?: return null
+        return LeaderBoardEntry(id, result)
+    }
+
     private fun doInternalSort(inputMap: MutableMap<Int, T>) {
         sortedMap = when (type) {
             SMALL_FIRST -> inputMap
@@ -56,6 +61,7 @@ abstract class AbstractLeaderBoard<T : Comparable<T>> {
                 .sortedByDescending { (_, value) -> value }
                 .toMap()
                 .toMutableMap()
+
             BIG_FIRST -> inputMap
                 .toList()
                 .sortedBy { (_, value) -> value }
