@@ -6,6 +6,14 @@ plugins {
 }
 
 taboolib {
+    description {
+        contributors {
+            name("闲蛋")
+        }
+        dependencies {
+            name("DataManager-Bukkit")
+        }
+    }
     install("common")
     install("common-5")
     install("module-configuration")
