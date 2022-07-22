@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 @Suppress("SameParameterValue")
 object ScreenSender {
 
-    const val screenId = "rank_main"
+    private const val screenId = "rank_main"
 
     fun openScreen(player: Player, init: Boolean = false) {
         if (init) {
@@ -52,7 +52,7 @@ object ScreenSender {
                     put("ranking_name_$index", "")
                     put("ranking_data_$index", "")
                 })
-                return
+                continue
             }
             PacketSender.sendSyncPlaceholder(player, mutableMapOf<String, String>().apply {
                 put("ranking_pos_$index", entry.index.toString())
