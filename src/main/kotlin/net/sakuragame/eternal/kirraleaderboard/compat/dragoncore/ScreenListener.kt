@@ -3,8 +3,10 @@ package net.sakuragame.eternal.kirraleaderboard.compat.dragoncore
 import com.google.common.collect.Lists
 import com.taylorswiftcn.megumi.uifactory.event.comp.UIFCompSubmitEvent
 import com.taylorswiftcn.megumi.uifactory.generate.function.SubmitParams
+import net.sakuragame.eternal.dragoncore.network.PacketSender
 import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.compat.dragoncore.ScreenListener.ActionPage.*
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.util.broadcast
@@ -18,7 +20,6 @@ object ScreenListener {
     @SubscribeEvent
     fun e(e: UIFCompSubmitEvent) {
         val player = e.player
-
         when (e.screenID) {
             "rank_category_change" -> handleCategoryChange()
             "rank_page_up" -> handlePage(player, UP, e.params, e.compID.toDoubleOrNull()?.toInt() ?: return)
@@ -41,19 +42,21 @@ object ScreenListener {
         val partition = Lists.partition(entryTotal, 10)
         val toOpenedPage = when (action) {
             UP -> {
-                if (page > partition.size) {
+                if (page <= 1) {
                     return
                 }
                 page - 1
             }
             NEXT -> {
-                if (page < 1) {
+                Bukkit.broadcastMessage("page: $page")
+                Bukkit.broadcastMessage("partitionSize: ${partition.size}")
+                if (page > partition.size) {
                     return
                 }
                 page + 1
             }
         }
+        PacketSender.sendRunFunction(player, "rank_main", "global.ranking_page = $toOpenedPage;", true)
         ScreenSender.doSyncVariable(player, board, toOpenedPage)
-        ScreenSender.openScreen(player)
     }
 }

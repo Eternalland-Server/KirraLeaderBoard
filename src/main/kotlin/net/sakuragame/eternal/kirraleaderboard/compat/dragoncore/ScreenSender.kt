@@ -40,9 +40,20 @@ object ScreenSender {
         if (page > partition.size) {
             return
         }
+        PacketSender.sendSyncPlaceholder(player, mutableMapOf<String, String>().apply {
+            put("max_ranking_page", partition.size.toString())
+        })
         val currentEntries = partition[page - 1]
         for (index in 1..10) {
-            val entry = currentEntries.getOrNull(index - 1) ?: continue
+            val entry = currentEntries.getOrNull(index - 1)
+            if (entry == null) {
+                PacketSender.sendSyncPlaceholder(player, mutableMapOf<String, String>().apply {
+                    put("ranking_pos_$index", "")
+                    put("ranking_name_$index", "")
+                    put("ranking_data_$index", "")
+                })
+                return
+            }
             PacketSender.sendSyncPlaceholder(player, mutableMapOf<String, String>().apply {
                 put("ranking_pos_$index", entry.index.toString())
                 put("ranking_name_$index", entry.playerName)
