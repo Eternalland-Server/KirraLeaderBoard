@@ -1,16 +1,11 @@
 package net.sakuragame.eternal.kirraleaderboard.leaderboard
 
-import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.BIG_FIRST
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.SMALL_FIRST
 import net.sakuragame.eternal.kirraleaderboard.toLeaderBoardEntry
 
-@Suppress("LeakingThis", "MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class AbstractLeaderBoard<T : Comparable<T>> {
-
-    init {
-        KirraLeaderBoardAPI.leaderBoards += this
-    }
 
     abstract val category: Category
 

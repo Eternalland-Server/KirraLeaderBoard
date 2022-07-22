@@ -13,6 +13,7 @@ object KirraLeaderBoardAPI {
 
     @Awake
     fun i() {
+        leaderBoards += CombatPowerLeaderBoard
     }
 
     fun refreshAll() {
