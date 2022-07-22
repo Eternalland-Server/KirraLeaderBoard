@@ -20,6 +20,7 @@ taboolib {
     install("module-chat")
     install("module-lang")
     install("platform-bukkit")
+    install("expansion-command-helper")
     classifier = null
     version = "6.0.9-31"
 }

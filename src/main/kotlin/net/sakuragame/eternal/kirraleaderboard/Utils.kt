@@ -2,6 +2,6 @@ package net.sakuragame.eternal.kirraleaderboard
 
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
 
-fun <T : Comparable<T>> Pair<Int, T>.toLeaderBoardEntry(index: Int): LeaderBoardEntry<T> {
+fun Pair<Int, Double>.toLeaderBoardEntry(index: Int): LeaderBoardEntry {
     return LeaderBoardEntry(index, first, second)
 }

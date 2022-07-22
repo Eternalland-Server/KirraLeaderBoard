@@ -9,11 +9,12 @@ import taboolib.common.platform.function.submit
 @Suppress("SpellCheckingInspection")
 object KirraLeaderBoardAPI {
 
-    val leaderBoards = mutableListOf<AbstractLeaderBoard<out Comparable<*>>>()
+    val leaderBoards = mutableListOf<AbstractLeaderBoard>()
 
     @Awake
     fun i() {
         leaderBoards += CombatPowerLeaderBoard
+        refreshAll()
     }
 
     fun refreshAll() {
@@ -22,9 +23,5 @@ object KirraLeaderBoardAPI {
                 it.refreshInput()
             }
         }
-    }
-
-    fun getByCategory(category: Category): AbstractLeaderBoard<out Comparable<*>>? {
-        return leaderBoards.firstOrNull { it.category == category }
     }
 }
