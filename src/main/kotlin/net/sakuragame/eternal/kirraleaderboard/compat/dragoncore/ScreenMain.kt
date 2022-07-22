@@ -7,10 +7,8 @@ import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.EntityViewC
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.TextureComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI
-import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.UnitConvert
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
-import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -20,8 +18,7 @@ object ScreenMain {
 
     private const val id = "rank_main"
 
-    fun send2Player(player: Player, category: Category, page: Int) {
-        val board = KirraLeaderBoardAPI.getByCategory(category) ?: error("无法根据分类获取对应界面。")
+    fun send2Player(player: Player, board: AbstractLeaderBoard<out Comparable<*>>, page: Int) {
         val partition = Lists.partition(board.getAll(), 10) ?: return
         ScreenUI(id).apply {
             addBackgroundComponents()
