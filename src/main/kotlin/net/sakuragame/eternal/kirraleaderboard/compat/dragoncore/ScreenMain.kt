@@ -1,14 +1,18 @@
 package net.sakuragame.eternal.kirraleaderboard.compat.dragoncore
 
+import com.google.common.collect.Lists
+import com.taylorswiftcn.megumi.uifactory.generate.type.ActionType
 import com.taylorswiftcn.megumi.uifactory.generate.type.FunctionType
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.EntityViewComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.LabelComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.component.base.TextureComp
 import com.taylorswiftcn.megumi.uifactory.generate.ui.screen.ScreenUI
 import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
+import net.sakuragame.eternal.kirraleaderboard.UnitConvert
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
-import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import taboolib.module.chat.colored
 
@@ -16,298 +20,20 @@ object ScreenMain {
 
     private const val id = "rank_main"
 
-    fun send2Player(player: Player, category: Category) {
-        val playerId = ClientManagerAPI.getUserID(player.uniqueId)
+    fun send2Player(player: Player, category: Category, page: Int) {
         val board = KirraLeaderBoardAPI.getByCategory(category) ?: error("无法根据分类获取对应界面。")
+        val partition = Lists.partition(board.getAll(), 10) ?: return
         ScreenUI(id).apply {
-            addImmutableComponents(player, playerId, category, board)
+            addBackgroundComponents()
+            addBaseInfoComponents(player, board)
+            addPageComponents(partition, page)
+            addAreaComponents()
+            addLinesComponents()
+            addRankingComponents()
         }
-            .addComponent(TextureComp("t1", "0,0,0,0").apply {
-                x = "body.x+134.25"
-                y = "body.y+45"
-                width = "59.25"
-                height = "21"
-            })
-            .addComponent(TextureComp("t2", "0,0,0,0").apply {
-                x = "t1.x+71"
-                y = "t1.y"
-                width = "66.75"
-                height = "21"
-            })
-            .addComponent(TextureComp("t3", "0,0,0,0").apply {
-                x = "t2.x+78"
-                y = "t2.y"
-                width = "59.25"
-                height = "21"
-            })
-            .addComponent(TextureComp("page", "0,0,0,0").apply {
-                x = "body.x+(body.width-page.width)/2"
-                y = "body.y+322"
-                width = "30"
-                height = "14"
-            })
-            .addComponent(TextureComp("up", "ui/quest/l.png").apply {
-                x = "page.x-10"
-                y = "page.y+2"
-                width = "7"
-                height = "10"
-            })
-            .addComponent(TextureComp("next", "ui/quest/r.png").apply {
-                x = "page.x+33"
-                y = "up.y"
-                width = "7"
-                height = "10"
-            })
-            .addComponent(TextureComp("area", "0,0,0,0").apply {
-                x = "body.x+128"
-                y = "body.y+82.5"
-                width = ""
-                height = ""
-            })
-            .addComponent(TextureComp("l1", "ui/ranking/line.png").apply {
-                x = "area.x"
-                y = "area.y"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l2", "ui/ranking/line.png").apply {
-                x = "l1.x"
-                y = "l1.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l3", "ui/ranking/line.png").apply {
-                x = "l2.x"
-                y = "l2.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l4", "ui/ranking/line.png").apply {
-                x = "l3.x"
-                y = "l3.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l5", "ui/ranking/line.png").apply {
-                x = "l4.x"
-                y = "l4.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l6", "ui/ranking/line.png").apply {
-                x = "l5.x"
-                y = "l5.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l7", "ui/ranking/line.png").apply {
-                x = "l6.x"
-                y = "l6.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l8", "ui/ranking/line.png").apply {
-                x = "l7.x"
-                y = "l7.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l9", "ui/ranking/line.png").apply {
-                x = "l8.x"
-                y = "l8.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l10", "ui/ranking/line.png").apply {
-                x = "l9.x"
-                y = "l9.y+24"
-                width = "219"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_1_1", "0,0,0,0").apply {
-                x = "l1.x"
-                y = "l1.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_1_2", "0,0,0,0").apply {
-                x = "l1.x+71.25"
-                y = "l1.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_1_3", "0,0,0,0").apply {
-                x = "l_1_2.x+78"
-                y = "l1.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_2_1", "0,0,0,0").apply {
-                x = "l2.x"
-                y = "l2.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_2_2", "0,0,0,0").apply {
-                x = "l2.x+71.25"
-                y = "l2.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_2_3", "0,0,0,0").apply {
-                x = "l_2_2.x+78"
-                y = "l2.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_3_1", "0,0,0,0").apply {
-                x = "l3.x"
-                y = "l3.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_3_2", "0,0,0,0").apply {
-                x = "l3.x+71.25"
-                y = "l3.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_3_3", "0,0,0,0").apply {
-                x = "l_3_2.x+78"
-                y = "l3.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_4_1", "0,0,0,0").apply {
-                x = "l4.x"
-                y = "l4.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_4_2", "0,0,0,0").apply {
-                x = "l4.x+71.25"
-                y = "l4.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_4_3", "0,0,0,0").apply {
-                x = "l_4_2.x+78"
-                y = "l4.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_5_1", "0,0,0,0").apply {
-                x = "l5.x"
-                y = "l5.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_5_2", "0,0,0,0").apply {
-                x = "l5.x+71.25"
-                y = "l5.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_5_3", "0,0,0,0").apply {
-                x = "l_5_2.x+78"
-                y = "l5.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_6_1", "0,0,0,0").apply {
-                x = "l6.x"
-                y = "l6.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_6_2", "0,0,0,0").apply {
-                x = "l6.x+71.25"
-                y = "l6.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_6_3", "0,0,0,0").apply {
-                x = "l_6_2.x+78"
-                y = "l6.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_7_1", "0,0,0,0").apply {
-                x = "l7.x"
-                y = "l7.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_7_2", "0,0,0,0").apply {
-                x = "l7.x+71.25"
-                y = "l7.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_7_3", "0,0,0,0").apply {
-                x = "l_7_2.x+78"
-                y = "l7.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_8_1", "0,0,0,0").apply {
-                x = "l8.x"
-                y = "l8.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_8_2", "0,0,0,0").apply {
-                x = "l8.x+71.25"
-                y = "l8.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_8_3", "0,0,0,0").apply {
-                x = "l_8_2.x+78"
-                y = "l8.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_9_1", "0,0,0,0").apply {
-                x = "l9.x"
-                y = "l9.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_9_2", "0,0,0,0").apply {
-                x = "l9.x+71.25"
-                y = "l9.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_9_3", "0,0,0,0").apply {
-                x = "l_9_2.x+78"
-                y = "l9.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_10_1", "0,0,0,0").apply {
-                x = "l10.x"
-                y = "l10.y"
-                width = "70.5"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_10_2", "0,0,0,0").apply {
-                x = "l10.x+71.25"
-                y = "l10.y"
-                width = "77.25"
-                height = "20.25"
-            })
-            .addComponent(TextureComp("l_10_3", "0,0,0,0").apply {
-                x = "l_10_2.x+78"
-                y = "l10.y"
-                width = "70.5"
-                height = "20.25"
-            })
     }
 
-    private fun ScreenUI.addImmutableComponents(player: Player, playerId: Int, category: Category, board: AbstractLeaderBoard<out Comparable<*>>) {
-        val boardEntry = board.getByPlayerName(playerId) ?: return
+    private fun ScreenUI.addBackgroundComponents() {
         addImports(ScreenCategory.id)
         addFunctions(FunctionType.Open, "global.ranking_category = 0;")
         addComponent(TextureComp("body", "ui/ranking/body.png").apply {
@@ -321,6 +47,10 @@ object ScreenMain {
             y = "body.y+15"
             scale = "1.6"
         })
+    }
+
+    private fun ScreenUI.addBaseInfoComponents(player: Player, board: AbstractLeaderBoard<out Comparable<*>>) {
+        val boardEntry = board.getByPlayerName(player.name) ?: return
         addComponent(TextureComp("s1", "ui/ranking/frame.png").apply {
             x = "body.x+390.75"
             y = "body.y+200"
@@ -340,20 +70,116 @@ object ScreenMain {
             y = "body.y+176"
             scale = 2.0.toString()
         })
-        addComponent(TextureComp("myrank", "0,0,0,0").apply {
+        addComponent(TextureComp("my_rank", "0,0,0,0").apply {
             x = "s1.x"
             y = "s1.y+20"
             width = "24"
             height = "10"
-            text = "&e&l9999".colored()
+            text = boardEntry.index.toString()
             scale = 2.4.toString()
         })
-        addComponent(TextureComp("mydata", "0,0,0,0").apply {
+        addComponent(TextureComp("my_data", "0,0,0,0").apply {
             x = "s2.x"
             y = "s2.y+20"
             width = "24"
             height = "10"
+            text = boardEntry.convert(UnitConvert.MILLION)
             scale = 2.4.toString()
         })
+        addComponent(TextureComp("t1", "0,0,0,0").apply {
+            x = "body.x+134.25"
+            y = "body.y+45"
+            width = "59.25"
+            height = "21"
+            text = "&f&l排名".colored()
+        })
+        addComponent(TextureComp("t2", "0,0,0,0").apply {
+            x = "t1.x+71"
+            y = "t1.y"
+            width = "66.75"
+            height = "21"
+            text = "&f&l玩家".colored()
+        })
+        addComponent(TextureComp("t3", "0,0,0,0").apply {
+            x = "t2.x+78"
+            y = "t2.y"
+            width = "59.25"
+            height = "21"
+            text = "&f&l数据".colored()
+        })
+    }
+
+    private fun ScreenUI.addPageComponents(partition: MutableList<MutableList<LeaderBoardEntry<out Comparable<*>>>>, page: Int) {
+        addComponent(TextureComp("page", "0,0,0,0").apply {
+            x = "body.x+(body.width-page.width)/2"
+            y = "body.y+322"
+            width = "30"
+            height = "14"
+            text = "$page/${partition.size}"
+        })
+        addComponent(TextureComp("up", "ui/quest/l.png").apply {
+            x = "page.x-10"
+            y = "page.y+2"
+            width = "7"
+            height = "10"
+            addAction(ActionType.Left_Click, Sound.UI_BUTTON_CLICK)
+            addAction(ActionType.Left_Click, "up.texture = 'ui/quest/l_p.png';")
+            addAction(ActionType.Left_Release, "up.texture = 'ui/quest/l.png';")
+        })
+        addComponent(TextureComp("next", "ui/quest/r.png").apply {
+            x = "page.x+33"
+            y = "up.y"
+            width = "7"
+            height = "10"
+            addAction(ActionType.Left_Click, Sound.UI_BUTTON_CLICK)
+            addAction(ActionType.Left_Click, "up.texture = 'ui/quest/l_p.png';")
+            addAction(ActionType.Left_Release, "up.texture = 'ui/quest/l.png';")
+        })
+    }
+
+    private fun ScreenUI.addAreaComponents() {
+        addComponent(TextureComp("area", "0,0,0,0").apply {
+            x = "body.x+128"
+            y = "body.y+82.5"
+        })
+    }
+
+    private fun ScreenUI.addLinesComponents() {
+        var yIncreased = 0
+        for (index in 1..10) {
+            addComponent(TextureComp("l$index", "'ui/ranking/line.png'").apply {
+                x = "aura.x"
+                y = "aura.y + $yIncreased"
+                width = "219"
+                height = "20.25"
+            })
+            yIncreased += 24
+        }
+    }
+
+    private fun ScreenUI.addRankingComponents() {
+        for (index in 1..10) {
+            addComponent(TextureComp("l${index}_1", "0,0,0,0").apply {
+                x = "l$index.x"
+                y = "l$index.y"
+                width = "70.5"
+                height = "20.25"
+                text = "pos_1"
+            })
+            addComponent(TextureComp("l${index}_2", "0,0,0,0").apply {
+                x = "l$index.x + 71.25"
+                y = "l$index.y"
+                width = "70.5"
+                height = "20.25"
+                text = "name_1"
+            })
+            addComponent(TextureComp("l${index}_2", "0,0,0,0").apply {
+                x = "l${index}_2.x + 78"
+                y = "l$index.y"
+                width = "70.5"
+                height = "20.25"
+                text = "data_1"
+            })
+        }
     }
 }
