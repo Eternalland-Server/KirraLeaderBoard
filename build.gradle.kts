@@ -43,7 +43,8 @@ dependencies {
     }
     compileOnly("net.sakuragame.eternal:DragonCore:2.6.1-SNAPSHOT@jar")
     compileOnly("com.taylorswiftcn:UIFactory:1.0.2-SNAPSHOT@jar")
-    compileOnly("net.sakuragame.eternal:JustLevel:1.1.1-SNAPSHOT@jar")
+    compileOnly("net.sakuragame.eternal:JustLevel:1.1.3-SNAPSHOT@jar")
+    compileOnly("net.sakuragame.eternal:JustAttribute:1.1.1-SNAPSHOT@jar")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 }

@@ -5,11 +5,10 @@ import com.taylorswiftcn.megumi.uifactory.event.comp.UIFCompSubmitEvent
 import com.taylorswiftcn.megumi.uifactory.generate.function.SubmitParams
 import net.sakuragame.eternal.dragoncore.network.PacketSender
 import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
-import net.sakuragame.eternal.kirraleaderboard.compat.dragoncore.ScreenListener.ActionPage.*
-import org.bukkit.Bukkit
+import net.sakuragame.eternal.kirraleaderboard.compat.dragoncore.ScreenListener.ActionPage.NEXT
+import net.sakuragame.eternal.kirraleaderboard.compat.dragoncore.ScreenListener.ActionPage.UP
 import org.bukkit.entity.Player
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.platform.util.broadcast
 
 object ScreenListener {
 
@@ -20,16 +19,19 @@ object ScreenListener {
     @SubscribeEvent
     fun e(e: UIFCompSubmitEvent) {
         val player = e.player
+        val categoryIndex = e.compID.toDoubleOrNull()?.toInt() ?: return
         when (e.screenID) {
-            "rank_category_change" -> handleCategoryChange()
-            "rank_page_up" -> handlePage(player, UP, e.params, e.compID.toDoubleOrNull()?.toInt() ?: return)
-            "rank_page_next" -> handlePage(player, NEXT, e.params, e.compID.toDoubleOrNull()?.toInt() ?: return)
+            "rank_category_change" -> handleCategoryChange(player, categoryIndex)
+            "rank_page_up" -> handlePage(player, UP, e.params, categoryIndex)
+            "rank_page_next" -> handlePage(player, NEXT, e.params, categoryIndex)
             else -> return
         }
     }
 
-    private fun handleCategoryChange() {
-        "category changed".broadcast()
+    private fun handleCategoryChange(player: Player, categoryIndex: Int) {
+        val board = KirraLeaderBoardAPI.leaderBoards.firstOrNull { it.category.index == categoryIndex } ?: return
+        PacketSender.sendRunFunction(player, "rank_main", "global.ranking_page = 1;", true)
+        ScreenSender.doSyncVariable(player, board, 1)
     }
 
     private fun handlePage(player: Player, action: ActionPage, params: SubmitParams, categoryIndex: Int) {
@@ -44,6 +46,7 @@ object ScreenListener {
                 }
                 page - 1
             }
+
             NEXT -> {
                 if (page >= partition.size) {
                     return
