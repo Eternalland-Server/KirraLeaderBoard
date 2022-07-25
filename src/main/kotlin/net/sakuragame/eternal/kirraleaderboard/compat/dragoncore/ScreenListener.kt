@@ -23,10 +23,7 @@ object ScreenListener {
         when (e.screenID) {
             "rank_category_change" -> handleCategoryChange()
             "rank_page_up" -> handlePage(player, UP, e.params, e.compID.toDoubleOrNull()?.toInt() ?: return)
-            "rank_page_next" -> {
-                e.compID.broadcast()
-                handlePage(player, NEXT, e.params, e.compID.toDoubleOrNull()?.toInt() ?: return)
-            }
+            "rank_page_next" -> handlePage(player, NEXT, e.params, e.compID.toDoubleOrNull()?.toInt() ?: return)
             else -> return
         }
     }
@@ -48,9 +45,7 @@ object ScreenListener {
                 page - 1
             }
             NEXT -> {
-                Bukkit.broadcastMessage("page: $page")
-                Bukkit.broadcastMessage("partitionSize: ${partition.size}")
-                if (page > partition.size) {
+                if (page >= partition.size) {
                     return
                 }
                 page + 1

@@ -1,23 +1,21 @@
 package net.sakuragame.eternal.kirraleaderboard.leaderboard.impl
 
+import net.sakuragame.eternal.justlevel.JustLevel
+import net.sakuragame.eternal.justlevel.api.JustLevelAPI
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType
 import taboolib.common.util.random
 
-object CombatPowerLeaderBoard : AbstractLeaderBoard() {
+object LevelLeaderBoard : AbstractLeaderBoard() {
 
-    override val category = Category.COMBAT
+    override val category = Category.LEVEL
 
     override var sortedMap = mutableMapOf<Int, Double>()
 
     override val type = SortType.BIG_FIRST
 
     override fun refreshInput() {
-        doInternalSort(mutableMapOf<Int, Double>().apply {
-            for (index in 1..100) {
-                put(index, random(1.0, 500.0))
-            }
-        })
+
     }
 }

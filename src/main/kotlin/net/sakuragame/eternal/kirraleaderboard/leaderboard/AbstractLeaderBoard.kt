@@ -48,7 +48,6 @@ abstract class AbstractLeaderBoard {
         sortedMap.onEachIndexed { index, entry ->
             toReturn += entry.toPair().toLeaderBoardEntry(index + 1)
         }
-        toReturn += LeaderBoardEntry(101, "kirraObj", 0.1)
         return toReturn
     }
 
@@ -63,6 +62,7 @@ abstract class AbstractLeaderBoard {
                 .sortedByDescending { (_, value) -> value }
                 .toMap()
                 .toMutableMap()
+
             SMALL_FIRST -> inputMap
                 .toList()
                 .sortedBy { (_, value) -> value }
