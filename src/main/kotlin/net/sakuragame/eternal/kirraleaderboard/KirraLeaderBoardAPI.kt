@@ -1,7 +1,11 @@
 package net.sakuragame.eternal.kirraleaderboard
 
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.impl.CoinsLeaderBoard
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.impl.CombatLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.impl.LevelLeaderBoard
+import net.sakuragame.eternal.kirraleaderboard.leaderboard.impl.PointsLeaderBoard
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.submit
 
@@ -12,7 +16,12 @@ object KirraLeaderBoardAPI {
 
     @Awake
     fun i() {
-        leaderBoards += LevelLeaderBoard
+        leaderBoards.apply {
+            this += LevelLeaderBoard
+            this += CombatLeaderBoard
+            this += CoinsLeaderBoard
+            this += PointsLeaderBoard
+        }
         refreshAll()
     }
 

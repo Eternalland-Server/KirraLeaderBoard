@@ -11,6 +11,9 @@ taboolib {
         }
         dependencies {
             name("DataManager-Bukkit")
+            name("GemsEconomy")
+            name("JustAttribute")
+            name("JustLevel")
         }
     }
     install("common")
@@ -18,6 +21,7 @@ taboolib {
     install("module-configuration")
     install("module-chat")
     install("module-lang")
+    install("module-database")
     install("platform-bukkit")
     install("expansion-command-helper")
     classifier = null
@@ -45,6 +49,7 @@ dependencies {
     compileOnly("com.taylorswiftcn:UIFactory:1.0.2-SNAPSHOT@jar")
     compileOnly("net.sakuragame.eternal:JustLevel:1.1.3-SNAPSHOT@jar")
     compileOnly("net.sakuragame.eternal:JustAttribute:1.1.1-SNAPSHOT@jar")
+    compileOnly("net.sakuragame.eternal:GemsEconomy:4.9.5-SNAPSHOT@jar")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
 }

@@ -6,6 +6,7 @@ import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
 import org.bukkit.entity.Player
+import taboolib.platform.util.broadcast
 
 @Suppress("SameParameterValue")
 object ScreenSender {
@@ -22,7 +23,7 @@ object ScreenSender {
 
     fun doSyncVariable(player: Player, board: AbstractLeaderBoard, page: Int) {
         val entryTotal = board.getAll()
-        val entryPlayer = entryTotal.firstOrNull { it.playerName == player.name } ?: return
+        val entryPlayer = entryTotal.find { it.playerName == player.name } ?: return
         syncPlayer(player, entryPlayer)
         syncLeaderBoard(player, board, page)
     }
@@ -37,6 +38,7 @@ object ScreenSender {
     private fun syncLeaderBoard(player: Player, board: AbstractLeaderBoard, page: Int) {
         val entryTotal = board.getAll()
         val partition = Lists.partition(entryTotal, 10)
+        partition.toString().broadcast()
         if (page > partition.size) {
             return
         }

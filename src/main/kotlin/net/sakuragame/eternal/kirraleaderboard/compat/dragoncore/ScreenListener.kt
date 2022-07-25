@@ -7,6 +7,7 @@ import net.sakuragame.eternal.dragoncore.network.PacketSender
 import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.compat.dragoncore.ScreenListener.ActionPage.NEXT
 import net.sakuragame.eternal.kirraleaderboard.compat.dragoncore.ScreenListener.ActionPage.UP
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.event.SubscribeEvent
 
@@ -29,9 +30,13 @@ object ScreenListener {
     }
 
     private fun handleCategoryChange(player: Player, categoryIndex: Int) {
+        Bukkit.broadcastMessage("category changed: ${player.name}, index: $categoryIndex")
         val board = KirraLeaderBoardAPI.leaderBoards.firstOrNull { it.category.index == categoryIndex } ?: return
+        Bukkit.broadcastMessage("reached 1")
         PacketSender.sendRunFunction(player, "rank_main", "global.ranking_page = 1;", true)
+        Bukkit.broadcastMessage("reached 2")
         ScreenSender.doSyncVariable(player, board, 1)
+        Bukkit.broadcastMessage("reached 3")
     }
 
     private fun handlePage(player: Player, action: ActionPage, params: SubmitParams, categoryIndex: Int) {
