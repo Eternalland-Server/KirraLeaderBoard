@@ -13,6 +13,8 @@ abstract class AbstractLeaderBoard {
 
     abstract val type: SortType
 
+    abstract fun printEntryPretty(entry: LeaderBoardEntry): String
+
     abstract fun refreshInput()
 
     fun getFirst(): LeaderBoardEntry? {

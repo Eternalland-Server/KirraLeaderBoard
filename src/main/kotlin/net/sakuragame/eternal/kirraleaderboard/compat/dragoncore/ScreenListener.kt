@@ -30,13 +30,9 @@ object ScreenListener {
     }
 
     private fun handleCategoryChange(player: Player, categoryIndex: Int) {
-        Bukkit.broadcastMessage("category changed: ${player.name}, index: $categoryIndex")
         val board = KirraLeaderBoardAPI.leaderBoards.firstOrNull { it.category.index == categoryIndex } ?: return
-        Bukkit.broadcastMessage("reached 1")
         PacketSender.sendRunFunction(player, "rank_main", "global.ranking_page = 1;", true)
-        Bukkit.broadcastMessage("reached 2")
         ScreenSender.doSyncVariable(player, board, 1)
-        Bukkit.broadcastMessage("reached 3")
     }
 
     private fun handlePage(player: Player, action: ActionPage, params: SubmitParams, categoryIndex: Int) {

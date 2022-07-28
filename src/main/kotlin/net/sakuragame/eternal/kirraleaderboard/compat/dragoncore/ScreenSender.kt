@@ -6,7 +6,6 @@ import net.sakuragame.eternal.kirraleaderboard.KirraLeaderBoardAPI
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
 import org.bukkit.entity.Player
-import taboolib.platform.util.broadcast
 
 @Suppress("SameParameterValue")
 object ScreenSender {
@@ -24,21 +23,20 @@ object ScreenSender {
     fun doSyncVariable(player: Player, board: AbstractLeaderBoard, page: Int) {
         val entryTotal = board.getAll()
         val entryPlayer = entryTotal.find { it.playerName == player.name } ?: return
-        syncPlayer(player, entryPlayer)
+        syncPlayer(player, board, entryPlayer)
         syncLeaderBoard(player, board, page)
     }
 
-    private fun syncPlayer(player: Player, entry: LeaderBoardEntry) {
+    private fun syncPlayer(player: Player, board: AbstractLeaderBoard, entry: LeaderBoardEntry) {
         PacketSender.sendSyncPlaceholder(player, mutableMapOf<String, String>().apply {
             put("my_rank", entry.index.toString())
-            put("my_data", entry.value.toString())
+            put("my_data", board.printEntryPretty(entry))
         })
     }
 
     private fun syncLeaderBoard(player: Player, board: AbstractLeaderBoard, page: Int) {
         val entryTotal = board.getAll()
         val partition = Lists.partition(entryTotal, 10)
-        partition.toString().broadcast()
         if (page > partition.size) {
             return
         }
@@ -59,7 +57,7 @@ object ScreenSender {
             PacketSender.sendSyncPlaceholder(player, mutableMapOf<String, String>().apply {
                 put("ranking_pos_$index", entry.index.toString())
                 put("ranking_name_$index", entry.playerName)
-                put("ranking_data_$index", entry.value.toString())
+                put("ranking_data_$index", board.printEntryPretty(entry))
             })
         }
     }
