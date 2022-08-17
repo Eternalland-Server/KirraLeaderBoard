@@ -5,3 +5,7 @@ settings:
     user: rpg-test
     password: jPGbpbpCy3W5Ssmz
     database: rpg-test
+  locations:
+    a:
+    b:
+    c:
