@@ -8,6 +8,6 @@ object FunctionListener {
 
     @SubscribeEvent
     fun e(e: NewHourEvent) {
-        KirraLeaderBoardAPI.refreshAll()
+        KirraLeaderBoardAPI.refresh()
     }
 }
