@@ -1,11 +1,12 @@
 package net.sakuragame.eternal.kirraleaderboard.leaderboard.impl
 
+import com.sakuragame.eternal.justattribute.JustAttribute
 import net.sakuragame.eternal.kirraleaderboard.UnitConvert
-import net.sakuragame.eternal.kirraleaderboard.compat.justattribute.CombatRecorder
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType
+import net.sakuragame.eternal.kirraleaderboard.safeSubList
 
 object CombatLeaderBoard : AbstractLeaderBoard() {
 
@@ -20,7 +21,7 @@ object CombatLeaderBoard : AbstractLeaderBoard() {
     }
 
     override fun refreshInput() {
-        val inputMap = CombatRecorder.combatMap
+        val inputMap = JustAttribute.getStorageManager().allPlayerCombatPower
             .mapValues { it.value.toDouble() }
             .toMutableMap()
         doInternalSort(inputMap)

@@ -45,10 +45,10 @@ dependencies {
     compileOnly("net.sakuragame:datamanager-bukkit-api:2.0.2-SNAPSHOT@jar") {
         isTransitive = true
     }
-    compileOnly("net.sakuragame.eternal:DragonCore:2.6.2-SNAPSHOT@jar")
+    compileOnly("net.sakuragame.eternal:DragonCore:2.6.3-SNAPSHOT@jar")
     compileOnly("com.taylorswiftcn:UIFactory:1.0.2-SNAPSHOT@jar")
     compileOnly("net.sakuragame.eternal:JustLevel:1.1.5-SNAPSHOT@jar")
-    compileOnly("net.sakuragame.eternal:JustAttribute:1.1.1-SNAPSHOT@jar")
+    compileOnly("net.sakuragame.eternal:JustAttribute:1.1.3-SNAPSHOT@jar")
     compileOnly("net.sakuragame.eternal:GemsEconomy:4.9.5-SNAPSHOT@jar")
     compileOnly("ink.ptms:Adyeshach:1.5.0@jar")
     compileOnly(kotlin("stdlib"))

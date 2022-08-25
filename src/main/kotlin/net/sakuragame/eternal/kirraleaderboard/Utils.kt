@@ -25,3 +25,7 @@ fun String.parseToLoc(): Location? {
     val pitch = split[5].toFloatOrNull() ?: return null
     return Location(world, x, y, z, yaw, pitch)
 }
+
+fun <T> List<T>.safeSubList(fromIndex: Int, toIndex: Int): List<T> {
+    return subList(fromIndex.coerceAtLeast(0), toIndex.coerceAtMost(this.size))
+}

@@ -2,6 +2,7 @@ package net.sakuragame.eternal.kirraleaderboard.leaderboard
 
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.BIG_FIRST
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType.SMALL_FIRST
+import net.sakuragame.eternal.kirraleaderboard.safeSubList
 import net.sakuragame.eternal.kirraleaderboard.toLeaderBoardEntry
 
 @Suppress("MemberVisibilityCanBePrivate")
@@ -62,14 +63,19 @@ abstract class AbstractLeaderBoard {
             BIG_FIRST -> inputMap
                 .toList()
                 .sortedByDescending { (_, value) -> value }
-                .toMap()
                 .toMutableMap()
 
             SMALL_FIRST -> inputMap
                 .toList()
                 .sortedBy { (_, value) -> value }
-                .toMap()
                 .toMutableMap()
         }
+    }
+
+    private fun List<Pair<Int, Double>>.toMutableMap(): MutableMap<Int, Double> {
+        return this
+            .safeSubList(0, 100)
+            .toMap()
+            .toMutableMap()
     }
 }

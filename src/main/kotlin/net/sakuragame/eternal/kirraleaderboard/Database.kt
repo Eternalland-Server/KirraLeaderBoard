@@ -1,7 +1,6 @@
 package net.sakuragame.eternal.kirraleaderboard
 
 import net.sakuragame.serversystems.manage.client.api.ClientManagerAPI
-import org.bukkit.entity.Player
 import taboolib.module.database.ColumnOptionSQL
 import taboolib.module.database.ColumnTypeSQL
 import taboolib.module.database.Table

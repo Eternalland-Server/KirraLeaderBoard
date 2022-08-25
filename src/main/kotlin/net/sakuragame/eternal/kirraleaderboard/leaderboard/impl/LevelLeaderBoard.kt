@@ -6,6 +6,7 @@ import net.sakuragame.eternal.kirraleaderboard.leaderboard.AbstractLeaderBoard
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.Category
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.LeaderBoardEntry
 import net.sakuragame.eternal.kirraleaderboard.leaderboard.SortType
+import net.sakuragame.eternal.kirraleaderboard.safeSubList
 
 object LevelLeaderBoard : AbstractLeaderBoard() {
 
