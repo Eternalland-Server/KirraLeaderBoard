@@ -21,11 +21,6 @@ object FunctionListener {
         handleInteract(e.player, e.entity.normalizeUniqueId)
     }
 
-    @SubscribeEvent
-    fun e(e: AdyeshachEntityDamageEvent) {
-        handleInteract(e.player, e.entity.normalizeUniqueId)
-    }
-
     private fun handleInteract(player: Player, normalizeUniqueId: UUID) {
         if (KirraLeaderBoardAPI.uuids.contains(normalizeUniqueId)) {
             ScreenSender.openScreen(player, init = true)

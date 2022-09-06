@@ -31,6 +31,8 @@ object KirraLeaderBoardAPI {
             this[1] = KirraLeaderBoard.conf.getString("settings.locations.a")?.parseToLoc() ?: return@apply
             this[2] = KirraLeaderBoard.conf.getString("settings.locations.b")?.parseToLoc() ?: return@apply
             this[3] = KirraLeaderBoard.conf.getString("settings.locations.c")?.parseToLoc() ?: return@apply
+            this[4] = KirraLeaderBoard.conf.getString("settings.locations.d")?.parseToLoc() ?: return@apply
+            this[5] = KirraLeaderBoard.conf.getString("settings.locations.e")?.parseToLoc() ?: return@apply
         }
 
     val uuids = mutableListOf<UUID>()
@@ -69,9 +71,12 @@ object KirraLeaderBoardAPI {
             modelIndex = 0
             leaderBoards.first()
         }
-        uuids += createNPC(leaderBoard.getFirst(), modelLocations[1]!!)
-        uuids += createNPC(leaderBoard.getSecond(), modelLocations[2]!!)
-        uuids += createNPC(leaderBoard.getThird(), modelLocations[3]!!)
+        val entries = leaderBoard.getAll()
+        uuids += createNPC(entries.firstOrNull(), modelLocations[1]!!)
+        uuids += createNPC(entries.getOrNull(1), modelLocations[2]!!)
+        uuids += createNPC(entries.getOrNull(2), modelLocations[3]!!)
+        uuids += createNPC(entries.getOrNull(3), modelLocations[4]!!)
+        uuids += createNPC(entries.getOrNull(4), modelLocations[5]!!)
     }
 
     private fun createNPC(entry: LeaderBoardEntry?, loc: Location): UUID {

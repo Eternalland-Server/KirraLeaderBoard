@@ -7,6 +7,7 @@ import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.mainCommand
 import taboolib.common.platform.command.subCommand
 import taboolib.expansion.createHelper
+import taboolib.module.chat.colored
 
 @CommandHeader(name = "leaderboard")
 object Commands {
@@ -18,15 +19,24 @@ object Commands {
 
     @CommandBody
     val open = subCommand {
-        execute<Player> { player, _, _ ->
-            ScreenSender.openScreen(player, init = true)
+        execute<Player> { sender, _, _ ->
+            ScreenSender.openScreen(sender, init = true)
         }
     }
 
     @CommandBody
     val updateModel = subCommand {
-        execute<Player> { player, context, _ ->
+        execute<Player> { sender, _, _ ->
             KirraLeaderBoardAPI.updateModel()
+            sender.sendMessage("&c[System] &7Ok!".colored())
+        }
+    }
+
+    @CommandBody
+    val refreshCache = subCommand {
+        execute<Player> { sender, _, _ ->
+            KirraLeaderBoardAPI.refresh()
+            sender.sendMessage("&c[System] &7Ok!".colored())
         }
     }
 
@@ -35,7 +45,7 @@ object Commands {
         dynamic(commit = "id") {
             execute<Player> { player, context, _ ->
                 when (val pos = context.get(1)) {
-                    "a", "b", "c" -> setPos(player, pos)
+                    "a", "b", "c", "d", "e" -> setPos(player, pos)
                     else -> return@execute
                 }
             }
